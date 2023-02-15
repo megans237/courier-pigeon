@@ -1,2 +1,2 @@
 # courier-pigeon
-UOttawa Hackathon - Package delivery optimization service
+UOttawa Hackathon 2023 - Package delivery optimization service
