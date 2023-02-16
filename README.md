@@ -12,17 +12,17 @@ Requirements are saved in `requirements.txt`.
 
 I would suggest using python to create your local interpreter - this prevents global site packages becoming messy. You can do this using pycharm very easily from within an existing repository.
 
-**Step 1:** Toolbar > File > New Project
+## **Step 1:** Toolbar > File > New Project
 ![img.png](readme/img.png)
 
-**Step 2:** Update project dir to be current dir
+## **Step 2:** Update project dir to be current dir
 ![img.png](readme/img2.png)
 Click on the folder button beside the Location tab:
 
 ![img.png](readme/img3.png)
 Navigate to the project directory
 
-**Step 3:** Create Venv
+## **Step 3:** Create Venv
 ![img.png](readme/img4.png)
 Default settings are OK, click on the <span style="color:teal">Create</span> button. You should see a venv folder created!
 
