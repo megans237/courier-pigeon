@@ -30,7 +30,7 @@ Default settings are OK, click on the <span style="color:teal">Create</span> but
 
 goodluck!
 
-# Navigating git
+# Navigating git (optional)
 1) Fork this repository
 2) checkout feature branch using `git checkout -b branch_name`
 3) commit, push changes as necessary using `git add filename` and `git commit -m commit message` and `git push`
