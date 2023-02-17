@@ -3,14 +3,19 @@ import os
 import certifi
 import paho.mqtt.client as mqtt
 
+
 def on_connect(client, userdata, flags, rc):
     client.subscribe("pigeon/#")
 
     client.publish("pigeon/chirp", payload="chirp chirp")
     client.publish("pigeon/death", payload="runover by a car")
 
+
 def on_message(client, userdata, msg):
-    print(f'Message received on topic: {msg.topic}. Message: {msg.payload.decode("utf-8")}')
+    print(
+        f'Message received on topic: {msg.topic}. Message: {msg.payload.decode("utf-8")}'
+    )
+
 
 def connect(SOLACE_USERNAME, SOLACE_PASSWORD, SOLACE_HOST, SOLACE_PORT):
     # wss only
@@ -27,7 +32,8 @@ def connect(SOLACE_USERNAME, SOLACE_PASSWORD, SOLACE_HOST, SOLACE_PORT):
     client.connect(SOLACE_HOST, SOLACE_PORT)
     return client
 
-if __name__=="__main__":
+
+if __name__ == "__main__":
     dotenv.load_dotenv()
     DBG = int(os.getenv("DEBUG"))
     SOLACE_USERNAME = os.getenv("SOLACE_USERNAME")
@@ -41,5 +47,3 @@ if __name__=="__main__":
 
     client = connect(SOLACE_USERNAME, SOLACE_PASSWORD, SOLACE_HOST, SOLACE_PORT)
     client.loop_forever()
-
-

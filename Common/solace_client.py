@@ -2,12 +2,16 @@ import dotenv
 import os
 import certifi
 import paho.mqtt.client as mqtt
-class SolaceClient:
-    def __init__(self):
-        """Initializes default client information
 
-        :return: connected mqtt.Client class
-        """
+
+class SolaceClient:
+    """Generic Solace Pubub+ MQTT Client connection.
+
+    Should be overriden by Driver, User, & Supervisor classes
+    """
+
+    def __init__(self):
+        """Initializes default client information"""
         dotenv.load_dotenv()
         self.USR = os.getenv("SOLACE_USERNAME")
         self.PWD = os.getenv("SOLACE_PASSWORD")
@@ -19,20 +23,42 @@ class SolaceClient:
         self.client = self.connect()
 
     def get_client(self):
+        """Returns the client"""
         return self.client
 
     def loop_forever(self):
+        """loops the client forever"""
         self.client.loop_forever()
 
     def on_connect(self, client, userdata, flags, rc):
-        print("connecting")
+        """
+        Function that runs when connecting.
+
+        Should be overriden for non-default setup
+        :param client:
+        :param userdata:
+        :param flags:
+        :param rc:
+        :return:
+        """
+        if self.DBG:
+            print("connecting")
+
         client.subscribe("pigeon/#")
 
-        client.publish("pigeon/chirp", payload="chirp chirp")
-        client.publish("pigeon/death", payload="runover by a car")
+        if self.DBG:
+            client.publish("pigeon/chirp", payload="chirp chirp")
+            client.publish("pigeon/death", payload="runover by a car")
 
     def on_message(self, client, userdata, msg):
-        print(f'Message received on topic: {msg.topic}. Message: {msg.payload.decode("utf-8")}')
+        """defines what occurs when a message is received.
+
+        To be overriden
+        """
+        print(
+            f'Message received on topic: {msg.topic}. Message: {msg.payload.decode("utf-8")}'
+        )
+
     def connect(self) -> mqtt.Client:
         client = mqtt.Client()
 
@@ -47,7 +73,8 @@ class SolaceClient:
 
         return client
 
-if __name__=="__main__":
+
+if __name__ == "__main__":
     solace_client = SolaceClient()
 
     solace_client.loop_forever()
