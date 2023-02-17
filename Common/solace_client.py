@@ -19,6 +19,8 @@ class SolaceClient:
         self.PORT = int(os.getenv("SOLACE_PORT"))
         self.DBG = int(os.getenv("DEBUG"))
 
+        # to be overwrittenh
+        self.topics=["testing/#"]
         # connect to something somehow
         self.client = self.connect()
 
@@ -44,10 +46,11 @@ class SolaceClient:
         if self.DBG:
             print("connecting")
 
-        client.subscribe("pigeon/#")
+        for topic in self.topics:
+            client.subscribe(topic)
 
         if self.DBG:
-            client.publish("pigeon/chirp", payload="chirp chirp")
+            client.publish("testing/chirp", payload="chirp chirp")
             client.publish("pigeon/death", payload="runover by a car")
 
     def on_message(self, client, userdata, msg):
