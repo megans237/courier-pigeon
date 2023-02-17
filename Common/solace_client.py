@@ -20,7 +20,7 @@ class SolaceClient:
         self.DBG = int(os.getenv("DEBUG"))
 
         # to be overwrittenh
-        self.topics=["testing/#"]
+        self.topics = ["testing/#"]
         # connect to something somehow
         self.client = self.connect()
 

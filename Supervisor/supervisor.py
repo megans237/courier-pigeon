@@ -5,6 +5,7 @@ class Supervisor(Common.solace_client.SolaceClient):
     def __init__(self):
         super().__init__()
         self.topics = ["pigeon/#"]
+
     def on_message(self, client, userdata, msg):
         print("in supervisor class")
         print(msg.topic, msg.payload.decode("utf-8"))
