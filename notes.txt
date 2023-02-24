@@ -1,14 +1,19 @@
 Topic structure:
 
-[Name of Program] / [Type] / [Van#] / [Pkg#]
+[Name of Program] / [Type] / [Van#] / [Pkg#] / [Special]
 
-Pigeon  /   gpsupdate   / van # /   XXX
-            delivery    / van # /   pkg #
-            pickup      / van # /   pkg #
-            reroute     / van # /   XXX
-            request     / XXX   /   pkg #
-            logon       / van # /   XXX
-            weather     / XXX   /   XXX     /   good
-                                            /   bad
-            traffic     / XXX   /   XXX     /   delay
-                                            /   speedup
+Pigeon  /   gpsupdate   / van # /   XXX     /   update              veh -> svr
+            delivery    / van # /   pkg #   /   update              veh -> svr
+                                            /   ACK                 svr -> veh
+            pickup      / van # /   pkg #   /   update              veh -> svr
+                                            /   ACK                 svr -> veh
+            reroute     / van # /   XXX     /   update              svr -> veh
+                                            /   ACK                 veh -> svr
+            request     / XXX   /   pkg #   /   current location    pkg -> svr
+                                            /   ACK                 svr -> pkg
+            logon       / van # /   XXX     /   req                 veh -> svr
+                                            /   ACK                 svr -> veh
+            weather     / XXX   /   XXX     /   update              -> svr
+                                            /   ???                 -> svr
+            traffic     / XXX   /   XXX     /   update              -> svr
+                                            /   ???                 -> svr

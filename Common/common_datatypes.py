@@ -1,7 +1,8 @@
 from dataclasses import dataclass
 from enum import Enum
 
-
+PKG_MAX = 400
+VEH_MAX = 20
 @dataclass
 class Location:
     lat: float
@@ -36,3 +37,14 @@ class Vehicle:
     veh_location: Location
     veh_status: VehicleState
     veh_payload = list[Package]  # TODO: change this to use dataclass field
+    veh_route = list[Location]
+
+    def update_location(self, lat: float, lon: float):
+        Location.lat = lat
+        Location.lon = lon
+
+    def pickup_package(self, pkg: Package) -> Package:
+        pkg.pkg_status = PackageState.ON_ROUTE
+        self.veh_payload.append(pkg)
+        self.veh_route.pop(0)
+        return pkg
