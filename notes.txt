@@ -1,0 +1,14 @@
+Topic structure:
+
+[Name of Program] / [Type] / [Van#] / [Pkg#]
+
+Pigeon  /   gpsupdate   / van # /   XXX
+            delivery    / van # /   pkg #
+            pickup      / van # /   pkg #
+            reroute     / van # /   XXX
+            request     / XXX   /   pkg #
+            logon       / van # /   XXX
+            weather     / XXX   /   XXX     /   good
+                                            /   bad
+            traffic     / XXX   /   XXX     /   delay
+                                            /   speedup

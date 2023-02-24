@@ -50,8 +50,8 @@ class SolaceClient:
             client.subscribe(topic)
 
         if self.DBG:
-            client.publish("testing/chirp", payload="chirp chirp")
-            client.publish("pigeon/death", payload="runover by a car")
+            client.publish("testing/chirp/vanx/pkgx", payload="chirp chirp")
+            client.publish("pigeon/death/vanx/pkgx", payload="runover by a car")
 
     def on_message(self, client, userdata, msg):
         """defines what occurs when a message is received.

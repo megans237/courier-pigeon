@@ -35,4 +35,4 @@ class Vehicle:
     veh_id: int
     veh_location: Location
     veh_status: VehicleState
-    veh_payload = [Package]  # TODO: change this to use dataclass field
+    veh_payload = list[Package]  # TODO: change this to use dataclass field
