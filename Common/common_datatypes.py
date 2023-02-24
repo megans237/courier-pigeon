@@ -9,6 +9,7 @@ VEH_MAX = 20
 class Location:
     lat: float
     lon: float
+    tag: str = ""
 
 
 class PackageState(Enum):
