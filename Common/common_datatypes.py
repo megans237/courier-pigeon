@@ -3,6 +3,8 @@ from enum import Enum
 
 PKG_MAX = 400
 VEH_MAX = 20
+
+
 @dataclass
 class Location:
     lat: float

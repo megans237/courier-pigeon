@@ -2,11 +2,13 @@ import Common.solace_client
 import paho.mqtt.client as mqtt
 import certifi
 
+
 class Test_Supervisor(Common.solace_client.SolaceClient):
     def __init__(self):
         self.DBG = 0
         super().__init__()
         self.topics = ["#"]
+
     def on_connect(self, client, userdata, flags, rc):
         """
         Function that runs when connecting.
@@ -30,6 +32,7 @@ class Test_Supervisor(Common.solace_client.SolaceClient):
         client.publish("pigeon/logon/vanx/pkgx", payload="logon")
         client.publish("pigeon/weather/vanx/pkgx", payload="weather")
         client.publish("pigeon/traffic/vanx/pkgx", payload="traffic")
+
 
 if __name__ == "__main__":
     test_supervisor_inst = Test_Supervisor()

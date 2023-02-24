@@ -12,11 +12,12 @@ class Supervisor(Common.solace_client.SolaceClient):
         self.packages: List[pigeon_dtype.Package] = [] * pigeon_dtype.PKG_MAX
         self.vehicles: List[pigeon_dtype.Vehicle] = [] * pigeon_dtype.VEH_MAX
 
+        # TODO: some way to check for veh_no conflict (for now, just make sure that vehicles *don't* have conflicts)
+
         if self.DBG:
             self.client.subscribe("#")
 
     def on_message(self, client, userdata, msg):
-
         if self.DBG:
             print(msg.topic, msg.payload.decode("utf-8"))
 
@@ -62,7 +63,7 @@ class Supervisor(Common.solace_client.SolaceClient):
                     print("in case traffic")
 
     def gpsupdate_handler(self, topics: [str], payload: str):
-        """ Called when there is a <gpsupdate> topic from a <vehicle>.
+        """Called when there is a <gpsupdate> topic from a <vehicle>.
 
         Updates the Location field of the respective vehicle.
 
@@ -73,12 +74,12 @@ class Supervisor(Common.solace_client.SolaceClient):
         veh_no = topics[2]
 
         veh_no = int(veh_no)
-        lat, lon = payload.strip("\"").split(",")
+        lat, lon = payload.strip('"').split(",")
         self.vehicles[veh_no].update_location(float(lat), float(lon))
         return
 
     def delivery_handler(self, topics: [str], payload: str):
-        """ Called when there is a <delivery> topic from a <vehicle> with a <package>
+        """Called when there is a <delivery> topic from a <vehicle> with a <package>
 
         Marks the package as delivered, removes it from the vehicle & the supervisors list of packages
 
@@ -89,7 +90,7 @@ class Supervisor(Common.solace_client.SolaceClient):
         return
 
     def pickup_handler(self, topics: [str], payload: str):
-        """ Called when there is a <pickup> topic from a <vehicle> regarding a <package>
+        """Called when there is a <pickup> topic from a <vehicle> regarding a <package>
 
         Adds the package to the vehicle and the supervisor, marks the package as ON_DELIVERY.
         Adds package destination to re-route request, re-routes everything.
@@ -101,7 +102,7 @@ class Supervisor(Common.solace_client.SolaceClient):
         return
 
     def reroute_handler(self, topics: [str], payload: str):
-        """ Ignored in a supervisor context since there cannot be anyone else other than the supervisor themselves
+        """Ignored in a supervisor context since there cannot be anyone else other than the supervisor themselves
         broadcasting re-route messages
 
         :param topics:
@@ -111,7 +112,7 @@ class Supervisor(Common.solace_client.SolaceClient):
         return
 
     def request_handler(self, topics: [str], payload: str):
-        """ Called when there is a request to pickup a package from <package>
+        """Called when there is a request to pickup a package from <package>
 
         sequences the package in to be picked up, re-routes vehicles to enable picking up the package.
 
@@ -122,7 +123,7 @@ class Supervisor(Common.solace_client.SolaceClient):
         return
 
     def logon_handler(self, topics: [str], payload: str):
-        """ Called when there is a <logon> with <request> from a <vehicle>
+        """Called when there is a <logon> with <request> from a <vehicle>
 
         checks that the vehicle number is within bounds, and not already occupied.
         returns ACK with payload "SUCCESS" if successful
@@ -134,7 +135,7 @@ class Supervisor(Common.solace_client.SolaceClient):
         return
 
     def weather_handler(self, topics: [str], payload: str):
-        """ Called when there is a <weather> update
+        """Called when there is a <weather> update
 
         Re-routes the vehicles accordingly
 
@@ -145,7 +146,7 @@ class Supervisor(Common.solace_client.SolaceClient):
         return
 
     def traffic_handler(self, topics: [str], payload: str):
-        """ Called when there is a <traffic> update
+        """Called when there is a <traffic> update
 
         Re-routes the vehicles accordingly
 
