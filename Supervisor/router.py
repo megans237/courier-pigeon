@@ -20,7 +20,7 @@ class Routing:
 
     def assemble_request(
         self,
-        coordinates: [pigeon_dtype.Location] = None,
+        coordinates: List[pigeon_dtype.Location] = None,
         options: [str] = None,
         token: str = None,
     ) -> str:
@@ -66,7 +66,7 @@ class Routing:
         str_url = self.API_URL + str_coord + "?" + str_opt + "access_token=" + token
         return str_url
 
-    def get_waypoints(self, url: str) -> List[Dict[str, Tuple[float, float]]]:
+    def get_waypoints(self, url: str) -> List[Dict[str, Union[float, str, Tuple[float, float], int]]]:
         """Gets raw waypoint data from mapbox request URL
 
         doesn't do any sorting atm.
@@ -81,16 +81,17 @@ class Routing:
         # decode json into dict
         rdata = r.json()
 
+        # print(rdata)
         # extract waypoint data from rdata dict
         waypoints = rdata["waypoints"]
 
         # for waypoint in waypoints:
-        #     print(waypoint)
+        #     print("AAA", waypoint)
 
         return waypoints
 
     def sort_waypoints(
-        self, waypoints: Dict[str, Union[int, float, str]]
+        self, waypoints: Dict[str, Union[int, float, str]]=None
     ) -> List[pigeon_dtype.Location]:
         """extracts data from waypoint structs
 
@@ -116,4 +117,17 @@ class Routing:
             # add temporary location to sorted waypoints list
             sorted_waypoints[idx] = t_loc
 
+        return sorted_waypoints
+
+    def gen_route(self, coordinates: List[pigeon_dtype.Location]) -> List[pigeon_dtype.Location]:
+        """returns data with sorted waypoints given a list of unsorted waypoints.
+
+        Essentially combines functionality of assemble_request, get_waypoints, & the non-overloaded sort_waypoints
+
+        :param coordinates:
+        :return:
+        """
+        url = self.assemble_request(coordinates=coordinates)
+        waypoints = self.get_waypoints(url=url)
+        sorted_waypoints = self.sort_waypoints(waypoints=waypoints)
         return sorted_waypoints

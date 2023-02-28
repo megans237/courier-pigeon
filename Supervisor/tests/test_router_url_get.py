@@ -8,10 +8,10 @@ TODO:
     - add multiple test cases
 """
 
+from typing import List, Tuple
+
 import Common.common_datatypes as pigeon_dtype
 import Supervisor.router as router
-
-from typing import List, Tuple, Dict
 
 
 def latlon_to_location(coord: Tuple[float, float], index) -> pigeon_dtype.Location:
@@ -27,7 +27,7 @@ def assemble_waypoints() -> List[pigeon_dtype.Location]:
 
     waypoint_list = []
     for index, elem in enumerate(data_list):
-        waypoint_list.append(latlon_to_location(elem, index))
+        waypoint_list.append(latlon_to_location(index=index, coord=elem))
     return waypoint_list
 
 
@@ -35,9 +35,10 @@ if __name__ == "__main__":
     test_router_inst = router.Routing()
     locations = assemble_waypoints()
     url = test_router_inst.assemble_request(coordinates=locations)
-    # print(url)
+    print(url)
     waypoints = test_router_inst.get_waypoints(url=url)
     # print(waypoints)
     sorted_waypoints = test_router_inst.sort_waypoints(waypoints=waypoints)
     for elem in sorted_waypoints:
         print(elem)
+    print(test_router_inst.gen_route(coordinates=locations))
