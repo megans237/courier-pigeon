@@ -1,9 +1,17 @@
-import Common.solace_client
+"""test_supervisor_message_case.py
+
+Tests the message case-switch statement inside the supervisor logic by
+sending a bunch of different payloads.
+
+TODO:
+    - add support for actual pytest regression
+"""
+import Common.solace_client as pigeon_client
 import paho.mqtt.client as mqtt
 import certifi
 
 
-class Test_Supervisor(Common.solace_client.SolaceClient):
+class TestSupervisorMessageCase(pigeon_client.SolaceClient):
     def __init__(self):
         self.DBG = 0
         super().__init__()
@@ -35,5 +43,5 @@ class Test_Supervisor(Common.solace_client.SolaceClient):
 
 
 if __name__ == "__main__":
-    test_supervisor_inst = Test_Supervisor()
+    test_supervisor_inst = TestSupervisorMessageCase()
     test_supervisor_inst.loop_forever()

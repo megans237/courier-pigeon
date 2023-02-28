@@ -1,7 +1,10 @@
-import dotenv
 import os
-import Common.common_datatypes
+
+import dotenv
 import requests
+from typing import List, Tuple, Dict, Union
+
+import Common.common_datatypes as pigeon_dtype
 
 
 class Routing:
@@ -17,7 +20,7 @@ class Routing:
 
     def assemble_request(
         self,
-        coordinates: [Common.Location] = None,
+        coordinates: [pigeon_dtype.Location] = None,
         options: [str] = None,
         token: str = None,
     ) -> str:
@@ -45,8 +48,11 @@ class Routing:
 
         # append coordinates to the http request url
         for loc in coordinates:
-            # FIXME: ensure that it's lat, lon not lon, lat
-            str_coord += str(loc.lat) + "," + str(loc.lon) + ";"
+            # Reminder: Mapbox uses lon, lat
+            str_coord += str(loc.lon) + "," + str(loc.lat) + ";"
+
+        # remove the last semicolon
+        str_coord = str_coord[:-1]
 
         # append options to the http request url
         for opt in options:
@@ -60,7 +66,7 @@ class Routing:
         str_url = self.API_URL + str_coord + "?" + str_opt + "access_token=" + token
         return str_url
 
-    def get_waypoints(self, url: str) -> []:
+    def get_waypoints(self, url: str) -> List[Dict[str, Tuple[float, float]]]:
         """Gets raw waypoint data from mapbox request URL
 
         doesn't do any sorting atm.
@@ -78,11 +84,14 @@ class Routing:
         # extract waypoint data from rdata dict
         waypoints = rdata["waypoints"]
 
+        # for waypoint in waypoints:
+        #     print(waypoint)
+
         return waypoints
 
     def sort_waypoints(
-        self, waypoints: dict[str, int | float | str]
-    ) -> [Common.common_datatypes.Location]:
+        self, waypoints: Dict[str, Union[int, float, str]]
+    ) -> List[pigeon_dtype.Location]:
         """extracts data from waypoint structs
 
         :param waypoints: list of Waypoints
@@ -101,7 +110,7 @@ class Routing:
             lat, lon = waypoint["location"]
 
             # create temporary location to put into waypoints
-            t_loc = Common.common_datatypes.Location(lat=lat, lon=lon, tag=name)
+            t_loc = pigeon_dtype.Location(lat=lat, lon=lon, tag=name)
 
             # todo: determine that this returns a copy of t_loc and that we aren't modifying the same t_loc over and over when we return the list
             # add temporary location to sorted waypoints list
