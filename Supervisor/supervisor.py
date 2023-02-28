@@ -30,7 +30,7 @@ class Supervisor(Common.solace_client.SolaceClient):
         # van_no = topics[2]
         # pkg_no = topics[3]
 
-        # TODO: update the case statetments to ignore ACK updates sent from the supervisor itself
+        # TODO: update the case statements to ignore ACK updates sent from the supervisor itself
         match type:
             case "gpsupdate":
                 if self.DBG:
