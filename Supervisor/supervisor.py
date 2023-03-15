@@ -40,7 +40,7 @@ class Supervisor(Common.solace_client.SolaceClient):
         # pkg_no = topics[3]
 
         # TODO: update the case statements to ignore ACK updates sent from the supervisor itself
-        match type:
+        match topics[1]:
             case "gpsupdate":
                 if self.DBG:
                     print("in case gpsupdate")
@@ -110,7 +110,7 @@ class Supervisor(Common.solace_client.SolaceClient):
 
         Marks the package as delivered, removes it from the vehicle & the supervisors list of packages
 
-        :param topics: pigeon / delivery / veh_no / pkg_no / xxx
+        :param topics: pigeon / delivery / veh_no / pkg_no / update
         :param payload: (lat: float, lon: float)
         :return:
         """
@@ -122,8 +122,8 @@ class Supervisor(Common.solace_client.SolaceClient):
         Adds the package to the vehicle and the supervisor, marks the package as ON_DELIVERY.
         Adds package destination to re-route request, re-routes everything.
 
-        :param topics:
-        :param payload:
+        :param topics: pigeon / pickup / veh_no / pkg_no / update
+        :param payload: (lat: float, lon: float)
         :return:
         """
         return
@@ -132,8 +132,8 @@ class Supervisor(Common.solace_client.SolaceClient):
         """Ignored in a supervisor context since there cannot be anyone else other than the supervisor themselves
         broadcasting re-route messages
 
-        :param topics:
-        :param payload:
+        :param topics: pigeon / reroute / veh_no / xxx / update
+        :param payload: ???
         :return:
         """
         return
