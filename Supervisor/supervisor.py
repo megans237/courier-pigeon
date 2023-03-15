@@ -45,31 +45,49 @@ class Supervisor(Common.solace_client.SolaceClient):
                 if self.DBG:
                     print("in case gpsupdate")
 
-                self.gpsupdate_handler(topics, payload)
+                self.gpsupdate_handler(topics=topics, payload=payload)
 
             case "delivery":
                 if self.DBG:
                     print("in case delivery")
 
+                self.delivery_handler(topics=topics, payload=payload)
+
             case "pickup":
                 if self.DBG:
                     print("in case pickup")
 
+                self.pickup_handler(topics=topics, payload=payload)
+
             case "reroute":
                 if self.DBG:
                     print("in case reroute")
+
+                self.reroute_handler(topics=topics, payload=payload)
+
             case "request":
                 if self.DBG:
                     print("in case debug")
+
+                self.request_handler(topics=topics, payload=payload)
+
             case "logon":
                 if self.DBG:
                     print("in case logon")
+
+                self.logon_handler(topics=topics, payload=payload)
+
             case "weather":
                 if self.DBG:
                     print("in case weather")
+
+                self.weather_handler(topics=topics, payload=payload)
+
             case "traffic":
                 if self.DBG:
                     print("in case traffic")
+
+                self.traffic_handler(topics=topics, payload=payload)
 
     def gpsupdate_handler(self, topics: [str], payload: str):
         """Called when there is a <gpsupdate> topic from a <vehicle>.
