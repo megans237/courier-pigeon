@@ -1,0 +1,63 @@
+<html>
+<header>
+    <title>Courier Pigeon</title>
+</header>
+<body>
+    <div><strong>Courier Pigeon</strong></div>
+    <div>Welcome to your Drivers' Interface</div>
+    <br>
+    <div><span>Last update: </span><span id="time-container"></span></div>
+    <button onclick="getUsers()">Enter Van #</button>
+    <input type="text" name="boxy">  
+    <div id="result-container"></div>
+    <br>
+
+    <button onclick="">Pickup Package Scan</button>
+
+    <br>
+    <button onclick="">Delivery Package Scan</button>
+    <br>
+    <br>
+    <div>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m62!1m12!1m3!1d39922.93032491273!2d-75.69480582892756!3d45.41441947404068!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m47!3e6!4m3!3m2!1d45.422194999999995!2d-75.68150299999999!4m3!3m2!1d45.423646!2d-75.68273599999999!4m3!3m2!1d45.424803!2d-75.68495399999999!4m3!3m2!1d45.426898!2d-75.686144!4m3!3m2!1d45.421772!2d-75.69603599999999!4m3!3m2!1d45.419973!2d-75.695602!4m3!3m2!1d45.418594!2d-75.692945!4m3!3m2!1d45.409996!2d-75.69965499999999!4m3!3m2!1d45.407108!2d-75.69019899999999!4m3!3m2!1d45.402732!2d-75.69319899999999!4m5!1s0x4ccf77d6cdd6038d%3A0x11bea5203bf8a5d9!2sLe%20Westin%20Tremblant%2C%20100%20Chem.%20de%20Kandahar%2C%20Mont-Tremblant%2C%20Quebec%20J8E%201E2!3m2!1d46.212646199999995!2d-74.58682189999999!5e0!3m2!1sen!2sca!4v1676211488595!5m2!1sen!2sca" width="1000" height="500" style="border:3;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+    </div>
+</body>
+<script>
+    var xhr = null;
+    getXmlHttpRequestObject = function () {
+        if (!xhr) {
+            // Create a new XMLHttpRequest object 
+            xhr = new XMLHttpRequest();
+        }
+        return xhr;
+    };
+    function dataCallback() {
+        // Check response is ready or not
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            console.log("User data received!");
+            getDate();
+            dataDiv = document.getElementById('result-container');
+            // Set current data text
+            dataDiv.innerHTML = xhr.responseText;
+        }
+    }
+    function getUsers() {
+        console.log("Get users...");
+        xhr = getXmlHttpRequestObject();
+        xhr.onreadystatechange = dataCallback;
+        // asynchronous requests
+        xhr.open("GET", "http://localhost:4002/users", true);
+        // Send the request over the network
+        xhr.send(null);
+    }
+    function getDate() {
+        date = new Date().toString();
+        document.getElementById('time-container').textContent
+            = date;
+    }
+    (function () {
+        getDate();
+    })();
+</script>
+</html>
