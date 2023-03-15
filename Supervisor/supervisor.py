@@ -1,3 +1,12 @@
+"""supervisor.py
+Updated: March 14, 2023
+Author: Anthony Luo
+--------------------------------------
+Main Supervisor class for pigeon hackathon. Handles all of the update interrupts & calls map generation.
+
+Errata:
+-
+"""
 import Common.solace_client
 import Common.common_datatypes as pigeon_dtype
 from typing import List, TypedDict

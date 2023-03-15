@@ -1,3 +1,13 @@
+"""router.py
+Updated: Mar 14, 2023 - class complete
+Author: Anthony Luo
+--------------------------------------
+Routing class which ingests a request with a list of Location classes, and then returns an optimized route.
+
+Errata:
+- Start Location MUST be the first point.
+- end Location MUST be the last point. This can be the same as start location.
+"""
 import os
 
 import dotenv

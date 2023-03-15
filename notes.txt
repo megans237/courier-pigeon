@@ -17,3 +17,18 @@ Pigeon  /   gpsupdate   / van # /   XXX     /   update              veh -> svr
                                             /   ???                 -> svr
             traffic     / XXX   /   XXX     /   update              -> svr
                                             /   ???                 -> svr
+
+
+Annis Todo List
+-------------------------------------
+supervisor.py
+$ - GpsUpdate Handler
+    - needs testing.
+    - updates GPS location of vehicle in list.
+x - delivery update handler
+x - pickup update handler
+x - reroute update handler
+x - request update handler
+x - logon update handler
+x - weather update handler
+x - traffic update handler

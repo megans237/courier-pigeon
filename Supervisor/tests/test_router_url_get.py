@@ -35,7 +35,7 @@ if __name__ == "__main__":
     test_router_inst = router.Routing()
     locations = assemble_waypoints()
     url = test_router_inst.assemble_request(coordinates=locations)
-    print(url)
+    # print(url)
     waypoints = test_router_inst.get_waypoints(url=url)
     # print(waypoints)
     sorted_waypoints = test_router_inst.sort_waypoints(waypoints=waypoints)
