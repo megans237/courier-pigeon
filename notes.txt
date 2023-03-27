@@ -1,5 +1,5 @@
 Topic structure:
-
+0                 / 1      / 2      / 3      / 4
 [Name of Program] / [Type] / [Van#] / [Pkg#] / [Special]
 
 Pigeon  /   gpsupdate   / van # /   XXX     /   update              veh -> svr
@@ -7,8 +7,8 @@ Pigeon  /   gpsupdate   / van # /   XXX     /   update              veh -> svr
                                             /   ACK                 svr -> veh
             pickup      / van # /   pkg #   /   update              veh -> svr
                                             /   ACK                 svr -> veh
-            reroute     / van # /   XXX     /   update              svr -> veh
-                                            /   ACK                 veh -> svr
+            reroute     / van # /   XXX     /   update              svr -> veh      payload = waypoints
+                                            /   ACK                 veh -> svr      payload = waypoints
             request     / XXX   /   pkg #   /   current location    pkg -> svr
                                             /   ACK                 svr -> pkg
             logon       / van # /   XXX     /   req                 veh -> svr

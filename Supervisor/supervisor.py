@@ -9,6 +9,7 @@ Errata:
 """
 import Common.solace_client
 import Common.common_datatypes as pigeon_dtype
+import Supervisor.router as router
 from typing import List, TypedDict
 
 
@@ -22,6 +23,8 @@ class Supervisor(Common.solace_client.SolaceClient):
         self.vehicles: List[pigeon_dtype.Vehicle] = [] * pigeon_dtype.VEH_MAX
 
         # TODO: some way to check for veh_no conflict (for now, just make sure that vehicles *don't* have conflicts)
+
+        self.mapbox_router = router.Routing()
 
         if self.DBG:
             self.client.subscribe("#")
@@ -51,31 +54,58 @@ class Supervisor(Common.solace_client.SolaceClient):
                 if self.DBG:
                     print("in case delivery")
 
-                self.delivery_handler(topics=topics, payload=payload)
+                if topics[4] == "ACK":
+                    # don't care about acknowledgement of delivery (self generated)
+                    return
+                else:
+                    # cares about vehicle saying they have delivered something
+                    self.delivery_handler(topics=topics, payload=payload)
 
             case "pickup":
                 if self.DBG:
                     print("in case pickup")
 
-                self.pickup_handler(topics=topics, payload=payload)
+                if topics[4] == "ACK":
+                    # don't care about acknowledgment of pickup (self generated)
+                    return
+                else:
+                    # acknowledge that an item has been picked up.
+                    self.pickup_handler(topics=topics, payload=payload)
 
             case "reroute":
                 if self.DBG:
                     print("in case reroute")
 
-                self.reroute_handler(topics=topics, payload=payload)
+                if topics[4] == "ACK":
+                    # TODO: update vehicle route information.
+                    self.reroute_handler(topics=topics, payload=payload)
+                else:
+                    # don't care for self-generated re-route request
+                    return
 
             case "request":
                 if self.DBG:
                     print("in case debug")
 
-                self.request_handler(topics=topics, payload=payload)
+                if topics[4] == "ACK":
+                    # ignore self generated acknowledgement for pickup request
+                    return
+                else:
+                    # handle request for new package
+                    self.request_handler(topics=topics, payload=payload)
 
             case "logon":
                 if self.DBG:
                     print("in case logon")
 
-                self.logon_handler(topics=topics, payload=payload)
+                if topics[4] == "ACK":
+                    # ignore self generated acknowledgement for pickup request
+                    return
+                else:
+                    # TODO: add vehicle to list of vehicles
+                    self.logon_handler(topics=topics, payload=payload)
+
+            # TODO: weather & traffic cases
 
             case "weather":
                 if self.DBG:
@@ -114,6 +144,23 @@ class Supervisor(Common.solace_client.SolaceClient):
         :param payload: (lat: float, lon: float)
         :return:
         """
+        veh_no = topics[2]
+        pkg_no = topics[3]
+        lat, lon = payload.strip('"').split(",")
+
+        # sets package status as delivered
+        self.packages[pkg_no].pkg_status = pigeon_dtype.PackageState.DELIVERED
+
+        for pkg in self.vehicles[veh_no].veh_payload:
+            # iterate through each of the packages
+
+            if pkg.pkg_id == pkg_no:
+                # deletes the package if it matches the package number
+                self.vehicles[veh_no].veh_payload.remove(pkg)
+
+        # TODO: generate new-route, broadcast to vehicle
+
+        # TODO: generate ACK message
         return
 
     def pickup_handler(self, topics: [str], payload: str):
@@ -159,6 +206,40 @@ class Supervisor(Common.solace_client.SolaceClient):
         :param payload: current location (float, float)
         :return:
         """
+        # grab vehicle information
+        veh_no = topics[2]
+        lat, lon = payload.strip('"').split(",")
+
+        veh_loc = pigeon_dtype.Location(lat=lat, lon=lon)
+
+        # check bounds
+        if veh_no > pigeon_dtype.VEH_MAX:
+            # TODO: reject
+            return
+
+        # add vehicle to supervisor
+        self.vehicles[veh_no] = pigeon_dtype.Vehicle(veh_name="", veh_id=veh_no, veh_location=veh_loc,
+                                                     veh_status=pigeon_dtype.VehicleState.WAITING)
+
+        # generate ACK
+        assembled_topic = topics[0] + "/" + topics[1] + "/" + topics[2] + "/" + topics[3] + "/" + "ACK"
+        self.send_message(topic=assembled_topic)
+
+        # generate path with N items.
+        # because we use mapbox v1, we have to take only the open items and then truncate to some limit.
+        # with mapbox v2, we will be able to dynamically sequence multiple vehicles to optimize routes further.
+        await_destinations = []
+        agiven_destinations = []
+        for pkg in self.packages:
+            if pkg.pkg_status == pigeon_dtype.PackageState.WAITING_FOR_PICKUP:
+                await_destinations.append(pkg.pkg_location)
+
+        # generate route and only go through first 10 points.
+        agiven_destinations = self.mapbox_router.gen_route(await_destinations)
+        agiven_destinations = agiven_destinations[0:10]
+
+        # sequence vehicle
+
         return
 
     def weather_handler(self, topics: [str], payload: str):

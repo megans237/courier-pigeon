@@ -76,6 +76,9 @@ class SolaceClient:
 
         return client
 
+    def send_message(self, topic: str, payload: str):
+        self.client.publish(topic=topic, payload=payload)
+
 
 if __name__ == "__main__":
     solace_client = SolaceClient()
