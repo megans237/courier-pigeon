@@ -26,6 +26,8 @@ class Supervisor(Common.solace_client.SolaceClient):
 
         self.mapbox_router = router.Routing()
 
+        self.wait_ack = None
+
         if self.DBG:
             self.client.subscribe("#")
 
@@ -78,6 +80,8 @@ class Supervisor(Common.solace_client.SolaceClient):
 
                 if topics[4] == "ACK":
                     # TODO: update vehicle route information.
+                    if self.wait_ack == "reroute":
+                        self.wait_ack = None
                     self.reroute_handler(topics=topics, payload=payload)
                 else:
                     # don't care for self-generated re-route request
@@ -238,7 +242,13 @@ class Supervisor(Common.solace_client.SolaceClient):
         agiven_destinations = self.mapbox_router.gen_route(await_destinations)
         agiven_destinations = agiven_destinations[0:10]
 
-        # sequence vehicle
+        # TODO: sequence vehicle
+        assembled_topic = topics[0]+"/reroute/"+topics[3]+"/update"
+        self.send_message(topic=assembled_topic, payload=agiven_destinations)
+
+        self.wait_ack = "reroute"
+
+        # TODO: blocking loop for ACK
 
         return
 
