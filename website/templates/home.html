@@ -1,7 +1,10 @@
 {% extends "layout.html" %}
 {% block title %}
-Home
+INTERFACE
 {% endblock %}
 {% block content %}
-<p>Home page or the Visual Studio Code Flask tutoiral.</p>
+<p>Welcome to your drivers' interface.</p>
+<input type="text" id="dr" name="driverid" placeholder="Driver ID number">
+<input type="submit" value="Submit"/>
+<p>Last update: {{ moment().format('MMMM Do YYYY, h:mm:ss a') }}.</p>
 {% endblock %}

@@ -1,7 +1,27 @@
 {% extends "layout.html" %}
 {% block title %}
-about us
+SCAN
 {% endblock %}
 {% block content %}
-<p>ab page for the visual studio code faksgkjhgkjh kjh jh kjghjkh j</p>
+<p>Activate your camera with the button below. Once the QR code is in focus, please press "SCAN".</p>
+
+<div class="box">
+	<a class="button1" href="#popup1">Pickup Package Scan</a> <a class="button1" href="#popup1">Dropoff Package Scan</a>
+</div>
+
+<div id="popup1" class="overlay">
+	<div class="popup">
+		<a class="close" href="#">&times;</a>
+		<div class="content">
+			Opening camera. Press X to cancel.
+		</div>
+	</div>
+</div>
+
+<p></p>
+<img src="https://lh3.googleusercontent.com/drive-viewer/AAOQEOQDkPX7r8qb5qDiMmKHcZ6KB2081N9j5n4s-jaIbYbC1HnqExIltFL0hI1KIeUsJ-IqZIjUIy4O60XH78s2jNCdU8v-=s1600">
+<p></p>
+<a class="button2" href="">SCAN</a>
+<p></p>
+<p></p>
 {% endblock %}

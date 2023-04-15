@@ -7,30 +7,31 @@ app = flask.Flask(__name__)
 
 from flask import Flask
 from flask import render_template
-from datetime import datetime
+from flask_moment import Moment
+moment = Moment(app)
 # from . import app
 
 @app.route("/")
 def home():
     return render_template("home.html")
 
-@app.route("/about/")
+@app.route("/scan/")
 def about():
     return render_template("about.html")
-
-@app.route("/contact/")
-def contact():
-    return render_template("contact.html")
-
-@app.route("/hello/")
-@app.route("/hello/<name>")
-def hello_there(name = None):
-    return render_template(
-        "hello_there.html",
-        name=name,
-        date=datetime.now()
-    )
 
 @app.route("/api/data")
 def get_data():
     return app.send_static_file("data.json")
+
+
+def map_generate(inputs):
+
+    coords = inputs.split(";")
+    url = "https://www.google.com/maps/dir/?api=1&origin=" + coords[0] + "&destination=" + coords[-1] + "travelmode=driving&waypoints="
+    for x in range(1, (len(coords))):
+        url = url + coords[x] + "%7C"
+        x += 1
+
+    return url
+
+

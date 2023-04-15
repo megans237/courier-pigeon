@@ -4,12 +4,13 @@
         <meta charset="utf-8" />
         <title>{% block title %}{% endblock %}</title>
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='site.css')}}" />
+        {{ moment.include_moment() }}
     </head>
 
     <body>
         <div class="navbar">
-            <a href="{{ url_for('home') }}" class="navbar-brand">Home</a>
-            <a href="{{ url_for('about') }}" class="navbar-item">Scan</a>
+            <a href="{{ url_for('home') }}" class="navbar-brand">HOME</a>
+            <a href="{{ url_for('about') }}" class="navbar-item">SCAN</a>
         </div>
 
         <div class="body-content">
@@ -17,7 +18,7 @@
             {% endblock %}
             <hr/>
             <footer>
-                <p>&copy; 2018</p>
+                <p>&copy; 2023 Courier Pigeon</p>
             </footer>
         </div>
     </body>

@@ -8,13 +8,19 @@
     font-size: 1em;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     color: white;
-    padding: 0px 0px 0px 0px;
+    padding: 3px 3px 3px 3px;
 }
+
+
 
 .navbar a {
     text-decoration: none;
     color: inherit;
 }
+
+.navbar a:hover {
+    color: #22bdae;
+  }
 
 .navbar-brand {
     font-size: 1.2em;
@@ -32,3 +38,106 @@
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+  .box {
+    width: 40%;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 5px;
+    border: 2px solid #fbfbfb;
+    border-radius: 5px/5px;
+    background-clip: padding-box;
+    margin-left:5px;
+  }
+  
+  .button1 {
+    font-size: 1em;
+    padding: 8px;
+    color: #000000;
+    border: 2px solid #000000;
+    border-radius: 5px/5px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.1s ease-out;
+  }
+  .button1:hover {
+    background: #22bdae;
+    color: white;
+  }
+  
+  .overlay {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    transition: opacity 500ms;
+    visibility: hidden;
+    opacity: 0;
+  }
+  .overlay:target {
+    visibility: visible;
+    opacity: 1;
+  }
+  
+  .popup {
+    margin: 70px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 5px;
+    width: 30%;
+    position: relative;
+    transition: all 0.5s ease-in-out;
+  }
+  
+  .popup h2 {
+    margin-top: 0;
+    color: #333;
+    font-family: Tahoma, Arial, sans-serif;
+  }
+  .popup .close {
+    position: absolute;
+    top: 7px;
+    right: 20px;
+    transition: all 200ms;
+    font-size: 30px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #333;
+  }
+  .popup .close:hover {
+    color: #000000;
+  }
+  .popup .content {
+    max-height: 30%;
+    overflow: auto;
+  }
+  
+
+img {
+  border-radius: 1%;
+  margin: auto;
+}
+
+.button2 {
+    font-size: 1em;
+    padding: 8px;
+    color: #000000;
+    border: 2px solid #000000;
+    border-radius: 5px/5px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.1s ease-out;
+    margin-left:380px;
+  }
+  .button2:hover {
+    background: #22bdae;
+    color: white;
+  }
+
+  input[type=text] {
+    width: 10%;
+    padding: 5px 5px;
+    margin: 4px 0;
+    box-sizing: border-box;
+  }
