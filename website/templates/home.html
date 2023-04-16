@@ -4,7 +4,42 @@ INTERFACE
 {% endblock %}
 {% block content %}
 <p>Welcome to your drivers' interface.</p>
-<input type="text" id="dr" name="driverid" placeholder="Driver ID number">
-<input type="submit" value="Submit"/>
+<input type="text" id="dr" placeholder="Driver ID number">
+<input type="submit" value="Submit" onclick="giveNum()">
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+<script>
+    function giveNum() {
+
+        const drivnum = document.getElementById("dr").value;
+        
+        const dict_values = {drivnum}; // variables to a dictionary in javascript
+        const s = JSON.stringify(dict_values); //converts javascript object or value to JSON
+        console.log(s); // prints the variables to console wndow in JSON format
+
+        $.ajax({
+            url:"/test",
+            type:"POST",
+            contentType:"application/json",
+            data: JSON.stringify(s)});
+        
+
+    };
+</script>
+
+<p></p>
+
+<select id ='linky'></select>
+
+<!-- <script>
+    // var linky = document.getElementById("linky"), source = {{ map_link | tojson }};
+
+c
+
+</script> -->
+
+<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2858.935754461877!2d-76.4836762225871!3d44.2289810710806!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4cd2aaf94c6b403b%3A0x4d7c60943c0015b6!2sMio%20Gelato!5e0!3m2!1sen!2sca!4v1681616014053!5m2!1sen!2sca" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+
 <p>Last update: {{ moment().format('MMMM Do YYYY, h:mm:ss a') }}.</p>
 {% endblock %}
