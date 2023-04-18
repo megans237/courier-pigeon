@@ -7,7 +7,7 @@
     background-color: rgb(37, 37, 37);
     font-size: 1em;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    color: white;
+    color: rgb(255, 255, 255);
     padding: 3px 3px 3px 3px;
 }
 
@@ -43,7 +43,7 @@
     margin: 0 auto;
     background: rgba(255, 255, 255, 0.2);
     padding: 5px;
-    border: 2px solid #fbfbfb;
+    border: 2px solid #ffffff;
     border-radius: 5px/5px;
     background-clip: padding-box;
     margin-left:5px;

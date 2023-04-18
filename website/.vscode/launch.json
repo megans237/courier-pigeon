@@ -12,8 +12,9 @@
             "request": "launch",
             "module": "flask",
             "env": {
-                "FLASK_APP": "app.py"
+                "FLASK_APP": "app"
             },
+            "cwd": "${website}",
             "args": [
                 "run",
                 "--no-debugger",

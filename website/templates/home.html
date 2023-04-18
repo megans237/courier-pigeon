@@ -3,7 +3,7 @@
 INTERFACE
 {% endblock %}
 {% block content %}
-<p>Welcome to your drivers' interface.</p>
+<p>Welcome to your drivers' interface. Submit your driver ID below to recieve an updated route.</p>
 <input type="text" id="dr" placeholder="Driver ID number">
 <input type="submit" value="Submit" onclick="giveNum()">
 
@@ -29,16 +29,27 @@ INTERFACE
 
 <p></p>
 
-<select id ='linky'></select>
+<iframe id="routemap" width=80% height=1000px frameborder="0" style="border:0" referrerpolicy="no-referrer-when-downgrade"
+src="" allowfullscreen></iframe>
+<p></p>
+<input type="submit" value="Update Map" onclick="upMap()">
 
-<!-- <script>
-    // var linky = document.getElementById("linky"), source = {{ map_link | tojson }};
+<script>
 
-c
 
-</script> -->
+    // var url=ReturnURL();
+    // var urlPath='http://localhost/POSkill/skillshow.aspx?user_id='+url;
+    // document.write('<iframe id="routemap" src=""+ urlPath ></iframe>');
 
-<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2858.935754461877!2d-76.4836762225871!3d44.2289810710806!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4cd2aaf94c6b403b%3A0x4d7c60943c0015b6!2sMio%20Gelato!5e0!3m2!1sen!2sca!4v1681616014053!5m2!1sen!2sca" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    function upMap() {
+    var newMapURL = "";
+    document.getElementById("routemap").src = newMapURL; // keep for other browsers
+    // document.getElementById("routemap").contentWindow.src = newMapURL;
+};
+
+</script>
+
+<p> {{ map }} </p>
 
 
 <p>Last update: {{ moment().format('MMMM Do YYYY, h:mm:ss a') }}.</p>
