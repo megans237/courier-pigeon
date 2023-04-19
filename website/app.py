@@ -9,6 +9,12 @@ from flask_moment import Moment
 from sys import stderr
 moment = Moment(app)
 
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
+MAPS_KEY = os.getenv('MAPS_API_KEY')
+
 print("If Error: Could not locate a Flask application, please enter <cd website>")
 
 # import Common.solace_client
@@ -29,9 +35,12 @@ inputs = ("45.422195,-75.681503;45.423646,-75.682736;45.424803,-75.684954;45.426
 
 @app.route("/")
 def home():
-    map = map_generate(inputs)
+    origin = (map_generate(inputs)[0])
+    waypoints = (map_generate(inputs)[1])
+    destination = (map_generate(inputs)[2])
+
     print(map, file=stderr)
-    return render_template("home.html", map=map)
+    return render_template("home.html", MAPS_KEY=MAPS_KEY, origin=origin, waypoints=waypoints, destination=destination)
 
 @app.route("/scan/")
 def about():
@@ -57,21 +66,25 @@ def map_generate(inputs):
     coords = inputs.split(";")
     print(len(coords))
     print(coords[0])
-    url = "https://www.google.com/maps/embed/v1/directions?key=___&origin=" + str(coords[0]) + "&waypoints="
+
+    origin = str(coords[0])
+
+    waypoints = ""
     for x in range(1, (len(coords))-2):
-        url = url + coords[x] + "|" 
+        waypoints = waypoints + coords[x] + "|" 
         x += 1
-        print(url)
+        print(waypoints)
         print(x)
         if x == len(coords)-2:
-            url = url[:-1]
+            waypoints = waypoints[:-1]
    
-    url = url + "&destination=" + coords[len(coords)-2] + "&zoom=14"
-    return url
+    destination = coords[len(coords)-2]
 
-print(map_generate(inputs))
-
+    return origin, waypoints, destination
 
 
+
+
+print(MAPS_KEY)
 
 

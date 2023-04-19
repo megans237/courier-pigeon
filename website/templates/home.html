@@ -42,14 +42,14 @@ src="" allowfullscreen></iframe>
     // document.write('<iframe id="routemap" src=""+ urlPath ></iframe>');
 
     function upMap() {
-    var newMapURL = "";
-    document.getElementById("routemap").src = newMapURL; // keep for other browsers
+    var new_map_URL = "https://www.google.com/maps/embed/v1/directions?key=" + "" + "&origin=" + "{{origin}}" + "&waypoints=" + "{{waypoints}}" + "&destination=" + "{{destination}}" + "&zoom=14";
+    document.getElementById("routemap").src = new_map_URL; // keep for other browsers
     // document.getElementById("routemap").contentWindow.src = newMapURL;
 };
 
 </script>
 
-<p> {{ map }} </p>
+<p> </p>
 
 
 <p>Last update: {{ moment().format('MMMM Do YYYY, h:mm:ss a') }}.</p>
