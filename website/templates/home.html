@@ -31,8 +31,12 @@ INTERFACE
 
 <iframe id="routemap" width=80% height=1000px frameborder="0" style="border:0" referrerpolicy="no-referrer-when-downgrade"
 src="" allowfullscreen></iframe>
-<p></p>
+<p>
+    
+</p>
 <input type="submit" value="Update Map" onclick="upMap()">
+
+
 
 <script>
 
@@ -42,9 +46,11 @@ src="" allowfullscreen></iframe>
     // document.write('<iframe id="routemap" src=""+ urlPath ></iframe>');
 
     function upMap() {
-    var new_map_URL = "https://www.google.com/maps/embed/v1/directions?key=" + "" + "&origin=" + "{{origin}}" + "&waypoints=" + "{{waypoints}}" + "&destination=" + "{{destination}}" + "&zoom=14";
+    var new_map_URL = "https://www.google.com/maps/embed/v1/directions?key=" + "{{MAPS_KEY}}" + "&origin=" + "{{origin}}" + "&waypoints=" + "{{waypoints}}" + "&destination=" + "{{destination}}" + "&zoom=14";
+    // 
     document.getElementById("routemap").src = new_map_URL; // keep for other browsers
     // document.getElementById("routemap").contentWindow.src = newMapURL;
+    
 };
 
 </script>

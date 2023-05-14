@@ -42,6 +42,7 @@ def home():
     print(map, file=stderr)
     return render_template("home.html", MAPS_KEY=MAPS_KEY, origin=origin, waypoints=waypoints, destination=destination)
 
+
 @app.route("/scan/")
 def about():
     return render_template("about.html")
@@ -80,11 +81,9 @@ def map_generate(inputs):
    
     destination = coords[len(coords)-2]
 
+    new_map_URL = "https://www.google.com/maps/embed/v1/directions?key=" + MAPS_KEY + "&origin=" + origin + "&waypoints=" + waypoints + "&destination=" + destination + "&zoom=14"
+    print(new_map_URL)
+
     return origin, waypoints, destination
-
-
-
-
-print(MAPS_KEY)
 
 
